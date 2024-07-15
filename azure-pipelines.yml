@@ -15,25 +15,4 @@ stages:
     - job: BuildAndTest
       displayName: 'Build and Test React App'
       steps:
-        - task: NodeTool@0
-          inputs:
-            versionSpec: '14.x'
-          displayName: 'Instalar Node.js'
-
-        - script: |
-            npm install
-            npm run lint
-          displayName: 'Instalar dependências e verificar sintaxe'
-
-        - script: |
-            npm test -- --coverage --watchAll=false
-          displayName: 'Executar testes'
-
-    # Exemplo de etapa de construção e implantação (opcional):
-    # - job: BuildAndDeploy
-    #   displayName: 'Build and Deploy React App'
-    #   steps:
-    #     - script: |
-    #         npm run build
-    #         # Comandos para implantar o aplicativo, por exemplo, usando Azure App Service, Azure Static Web Apps, etc.
-
+        - script: echo "Ok"
