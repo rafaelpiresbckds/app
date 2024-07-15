@@ -1,27 +1,37 @@
-# Node.js
-
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+# Arquivo azure-pipelines.yml
 
 trigger:
-- main
+  branches:
+    include:
+      - main
+      - develop
 
-pool: MYpoll
+pool:
+  vmImage: 'ubuntu-latest'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+jobs:
+  - job: BuildAndTest
+    displayName: 'Build and Test React App'
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '14.x'
+        displayName: 'Instalar Node.js'
 
-# - script: |
-#     echo 'OK' 
-#     # npm install
-#     npm run build
-#   displayName: 'npm install and build'
-# - task: DownloadBuildArtifacts@1
-#   inputs:
-#     buildType: 'current'
-#     downloadType: 'single'
-#     downloadPath: '.'
+      - script: |
+          npm install
+          npm run lint
+        displayName: 'Instalar dependências e verificar sintaxe'
+
+      - script: |
+          npm test -- --coverage --watchAll=false
+        displayName: 'Executar testes'
+
+  # Exemplo de etapa de construção e implantação (opcional):
+  # - job: BuildAndDeploy
+  #   displayName: 'Build and Deploy React App'
+  #   steps:
+  #     - script: |
+  #         npm run build
+  #         # Comandos para implantar o aplicativo, por exemplo, usando Azure App Service, Azure Static Web Apps, etc.
+
